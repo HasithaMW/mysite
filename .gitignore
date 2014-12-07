@@ -41,3 +41,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.class
+*.class
+target/classes/com/kzone/dao/UserDAO.class
+*.class
