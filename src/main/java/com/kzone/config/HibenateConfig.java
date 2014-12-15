@@ -27,7 +27,7 @@ public class HibenateConfig {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "com.kzone.entity" });
+		sessionFactory.setPackagesToScan(new String[] { "com.kzone.entity","com.kzone.entity.types" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}
