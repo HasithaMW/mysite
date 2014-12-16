@@ -1,31 +1,18 @@
 package com.kzone.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
-public class User implements Serializable {
+public class User extends BaseEntity  {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3439740372791278891L;
-	private Long userId;
 	private String userName;
 	private String lastName;
-	
-	
-	@Id
-	@Column
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+
 	
 	@Column
 	public String getUserName() {
@@ -43,9 +30,9 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 	
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return this.getUserName();
 	}
 }

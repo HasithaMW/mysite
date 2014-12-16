@@ -15,7 +15,7 @@ public class Image implements BinaryType{
 		return null;
 	}
 
-	public void setPath() {
+	public void setPath(String path) {
 		
 	}
 	

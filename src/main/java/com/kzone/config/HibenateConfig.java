@@ -29,6 +29,7 @@ public class HibenateConfig {
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(new String[] { "com.kzone.entity","com.kzone.entity.types" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
+		sessionFactory.setEntityInterceptor(new HibernateInterceptor());
 		return sessionFactory;
 	}
 

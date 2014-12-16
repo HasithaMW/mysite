@@ -36,7 +36,6 @@ public class HomeController {
 	@ResponseBody
 	public User getUser() {
 		User user = new User();
-		user.setUserId(120l);
 		user.setUserName("kasun");
 		System.out.println("HomeController.getUser()");
 		return user;
@@ -47,8 +46,7 @@ public class HomeController {
 	public String getSave(@RequestBody User user) {
 		System.out.println(user);
 //		User user = new User();
-		user.setUserId(120l);
-		user.setUserName("kasun");
+		userService.addUser(user);
 		System.out.println("HomeController.getSave()");
 		return "";
 	}
@@ -79,7 +77,6 @@ public class HomeController {
 	public User getPet(@PathVariable String userName, Model model) {
 		User user = new User();
 		user.setUserName(userName);
-		user.setUserId(System.currentTimeMillis());
 		return user;
 	}
 
