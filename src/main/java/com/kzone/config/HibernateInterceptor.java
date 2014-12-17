@@ -22,7 +22,13 @@ public class HibernateInterceptor implements Interceptor {
 	public boolean onFlushDirty(Object entity, Serializable id,
 			Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) throws CallbackException {
-		// TODO Auto-generated method stub
+		
+		for (int i = 0; i < propertyNames.length; i++) {
+			if("modifiedDate".equals(propertyNames[i])){
+				currentState[i] = new Timestamp(System.currentTimeMillis());
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -30,7 +36,6 @@ public class HibernateInterceptor implements Interceptor {
 			String[] propertyNames, Type[] types) throws CallbackException {
 		
 		for (int i = 0; i < propertyNames.length; i++) {
-			System.out.println(propertyNames[i]);
 			if("createdDate".equals(propertyNames[i])){
 				state[i] = new Timestamp(System.currentTimeMillis());
 				return true;
