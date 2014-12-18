@@ -45,7 +45,7 @@ public class Post extends BaseEntity implements Comparable<Post> {
 		this.title = title;
 	}
 	
-	@Column(nullable=false)
+	@Column(nullable=false,columnDefinition="TEXT")
 	public String getBody() {
 		return body;
 	}
@@ -136,8 +136,13 @@ public class Post extends BaseEntity implements Comparable<Post> {
 			return 1;
 		}
 		else{
-			return compareTo.getRating().compareTo(getRating());
+			return getRating().compareTo(compareTo.getRating());
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getTitle();
 	}
 
 }

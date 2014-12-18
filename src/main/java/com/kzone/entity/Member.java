@@ -1,15 +1,15 @@
 package com.kzone.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import com.kzone.entity.type.Address;
 import com.kzone.entity.type.Image;
@@ -20,13 +20,14 @@ public class Member extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Name    name;
-	private Address address;
-	private Date    dob;
-	private String  telephone;
-	private String  email;
-	private String  password;
-	private Image   profileImage;
+	private Name      name;
+	private Address   address;
+	private Date      dob;
+	private String    telephone;
+	private String    email;//FIXME encrypt this
+	private String    password;//FIXME encrypt this
+	private Image     profileImage;
+	private Timestamp lastLogindate;
 	
 	private Set<Post> posts = new HashSet<>();
 	
@@ -86,6 +87,25 @@ public class Member extends BaseEntity {
 		this.profileImage = profileImage;
 	}
 	
-
+	@Column
+	public Timestamp getLastLogindate() {
+		return lastLogindate;
+	}
+	public void setLastLogindate(Timestamp lastLogindate) {
+		this.lastLogindate = lastLogindate;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="postedBy")
+	public Set<Post> getPosts() {
+		return posts;
+	}
+	public void setPosts(Set<Post> posts) {
+		this.posts = posts;
+	}
+	
+	@Override
+	public String toString() {
+		return name.toString();
+	}
 	
 }

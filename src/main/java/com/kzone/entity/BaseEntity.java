@@ -15,7 +15,7 @@ public class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private Long 	  id;
 	private Timestamp createdDate;
 	private Timestamp modifiedDate;
 	private Boolean	  disabled;
@@ -86,6 +86,4 @@ public class BaseEntity implements Serializable {
 		return true;
 	}
 
-	
-	
 }
