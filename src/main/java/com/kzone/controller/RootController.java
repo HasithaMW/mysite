@@ -21,7 +21,6 @@ public class RootController {
 	@RequestMapping(value = "/")
 	public String root(Model model) {
 		User user = new User();
-		user.setUserId(120l);
 		user.setUserName("kasun");
 		model.addAttribute("user", user);
 		return "index";
