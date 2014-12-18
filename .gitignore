@@ -46,3 +46,4 @@ Temporary Items
 *.class
 target/classes/com/kzone/dao/UserDAO.class
 *.class
+/target/

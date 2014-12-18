@@ -13,13 +13,13 @@ import javax.persistence.TableGenerator;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7334646565828298822L;
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private Timestamp createdDate;
 	private Timestamp modifiedDate;
+	private Boolean	  disabled;
+	
 
 	@Id
 	@TableGenerator(name = "ID_GEN", table = "idGen", 
@@ -50,6 +50,15 @@ public class BaseEntity implements Serializable {
 
 	public void setModifiedDate(Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@Column(nullable=false)
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	@Override

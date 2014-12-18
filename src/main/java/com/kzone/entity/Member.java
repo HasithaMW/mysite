@@ -1,6 +1,8 @@
 package com.kzone.entity;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -16,15 +18,17 @@ import com.kzone.entity.type.Name;
 @Entity
 public class Member extends BaseEntity {
 
+	private static final long serialVersionUID = 1L;
 	
-	private Name name;
+	private Name    name;
 	private Address address;
-	private Date dob;
-	private String telephone;
-	private String email;
-	private String password;
-	private Image profileImage;
+	private Date    dob;
+	private String  telephone;
+	private String  email;
+	private String  password;
+	private Image   profileImage;
 	
+	private Set<Post> posts = new HashSet<>();
 	
 	@Embedded
 	public Name getName() {

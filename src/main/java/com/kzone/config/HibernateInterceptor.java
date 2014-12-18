@@ -38,7 +38,8 @@ public class HibernateInterceptor implements Interceptor {
 		for (int i = 0; i < propertyNames.length; i++) {
 			if("createdDate".equals(propertyNames[i])){
 				state[i] = new Timestamp(System.currentTimeMillis());
-				return true;
+			}else if ("disabled".equals(propertyNames[i])){
+				state[i] = Boolean.FALSE;
 			}
 		}
 		
