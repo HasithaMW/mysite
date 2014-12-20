@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public void updateUser(User user) {
-		this.updateUser(user);
+		this.userDAO.updateUser(user);
 
 	}
 
@@ -39,12 +39,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public User getUserById(int id) {
-		return this.getUserById(id);
+	public User getUserById(Long id) {
+		return this.userDAO.getUserById(id);
 	}
 
 	@Transactional
-	public void removeUser(int id) {
+	public void removeUser(Long id) {
 		this.userDAO.removeUser(id);
 
 	}

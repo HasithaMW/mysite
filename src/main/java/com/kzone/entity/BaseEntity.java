@@ -34,7 +34,7 @@ public class BaseEntity implements Serializable {
 		this.id = id;
 	}
 
-	@Column(nullable = false)
+	@Column(updatable=false)
 	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
@@ -43,7 +43,7 @@ public class BaseEntity implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	@Column(nullable = true)
+	@Column
 	public Timestamp getModifiedDate() {
 		return modifiedDate;
 	}
@@ -52,7 +52,7 @@ public class BaseEntity implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	@Column(nullable=false)
+	@Column
 	public Boolean getDisabled() {
 		return disabled;
 	}

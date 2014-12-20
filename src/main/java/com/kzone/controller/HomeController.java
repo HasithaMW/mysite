@@ -47,7 +47,13 @@ public class HomeController {
 		System.out.println(user);
 //		User user = new User();
 		userService.addUser(user);
+		user.setUserName("Updated");
+		User userById = userService.getUserById(new Long(15));
+		
+		userService.updateUser(user);
+		userService.updateUser(userById);
 		System.out.println("HomeController.getSave()");
+
 		return "";
 	}
 	
