@@ -49,16 +49,16 @@ public class UserDAOImpl implements UserDAO {
 		return userList;
 	}
 
-	public User getUserById(int id) {
+	public User getUserById(Long id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		User user = (User) session.load(User.class, new Integer(id));
+		User user = (User) session.load(User.class, id);
 		logger.info("User loaded successfully, User details=" + user);
 		return user;
 	}
 
-	public void removeUser(int id) {
+	public void removeUser(Long id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		User user = (User) session.load(User.class, new Integer(id));
+		User user = (User) session.get(User.class, id);
 		if (null != user) {
 			session.delete(user);
 		}

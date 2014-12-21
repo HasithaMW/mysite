@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kzone.dao.UserDAO;
 import com.kzone.entity.User;
+import com.kzone.util.encryption.EncryptionUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,19 +18,23 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userDaAO")
 	private UserDAO userDAO;
 	
+	@Autowired
+	@Qualifier("DESEncryption")
+	private EncryptionUtil encryptionUtil;
 	
 	public UserServiceImpl() {
 	}
 	
 	@Transactional
 	public void addUser(User user) {
+		this.encryptionUtil.encrypt("");
 		this.userDAO.addUser(user);
 
 	}
 
 	@Transactional
 	public void updateUser(User user) {
-		this.updateUser(user);
+		this.userDAO.updateUser(user);
 
 	}
 
@@ -39,12 +44,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public User getUserById(int id) {
-		return this.getUserById(id);
+	public User getUserById(Long id) {
+		return this.userDAO.getUserById(id);
 	}
 
 	@Transactional
-	public void removeUser(int id) {
+	public void removeUser(Long id) {
 		this.userDAO.removeUser(id);
 
 	}

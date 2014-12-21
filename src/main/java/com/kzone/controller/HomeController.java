@@ -1,7 +1,9 @@
 package com.kzone.controller;
 
-import org.springframework.http.HttpStatus;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kzone.entity.User;
 import com.kzone.service.UserService;
+import com.kzone.util.encryption.HashUtil;
 
 @Controller
 @RequestMapping("/home")
@@ -27,6 +30,9 @@ public class HomeController {
 	@Qualifier("userService")
 	private UserService userService;
 
+	@Autowired
+	private HashUtil hashUtil;
+	
 	public HomeController() {
 
 	}
@@ -36,7 +42,6 @@ public class HomeController {
 	@ResponseBody
 	public User getUser() {
 		User user = new User();
-		user.setUserId(120l);
 		user.setUserName("kasun");
 		System.out.println("HomeController.getUser()");
 		return user;
@@ -46,9 +51,19 @@ public class HomeController {
 	@ResponseBody
 	public String getSave(@RequestBody User user) {
 		System.out.println(user);
-//		User user = new User();
-		user.setUserId(120l);
-		user.setUserName("kasun");
+		userService.addUser(user);
+		try {
+			
+			String createHash = hashUtil.createHash(user.getUserName());
+			System.out.println(createHash);
+			Boolean validateString = hashUtil.validateString(user.getUserName(), createHash);
+			System.out.println("validateString : " +validateString);
+			
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		System.out.println("HomeController.getSave()");
 		return "";
 	}
@@ -69,8 +84,6 @@ public class HomeController {
 	@RequestMapping(value = "/owners/{ownerId}/pets/{petId}", method = RequestMethod.GET)
 	public String getMatric(@PathVariable String ownerId,
 			@PathVariable String petId) {
-		System.out.println(ownerId);
-		System.out.println(petId);
 		return "home/index";
 	}
 
@@ -79,7 +92,6 @@ public class HomeController {
 	public User getPet(@PathVariable String userName, Model model) {
 		User user = new User();
 		user.setUserName(userName);
-		user.setUserId(System.currentTimeMillis());
 		return user;
 	}
 

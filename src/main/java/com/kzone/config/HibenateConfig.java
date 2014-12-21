@@ -3,6 +3,7 @@ package com.kzone.config;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.Interceptor;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +23,18 @@ public class HibenateConfig {
 
 	@Autowired
 	private Environment environment;
+	@Autowired
+	private Interceptor interceptor;
 
+	
+	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "com.kzone.entity" });
+		sessionFactory.setPackagesToScan(new String[] { "com.kzone.entity","com.kzone.entity.types" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
+		sessionFactory.setEntityInterceptor(interceptor);
 		return sessionFactory;
 	}
 
