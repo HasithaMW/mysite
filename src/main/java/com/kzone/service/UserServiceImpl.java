@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kzone.dao.UserDAO;
 import com.kzone.entity.User;
+import com.kzone.util.encryption.EncryptionUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,12 +18,16 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userDaAO")
 	private UserDAO userDAO;
 	
+	@Autowired
+	@Qualifier("DESEncryption")
+	private EncryptionUtil encryptionUtil;
 	
 	public UserServiceImpl() {
 	}
 	
 	@Transactional
 	public void addUser(User user) {
+		this.encryptionUtil.encrypt("");
 		this.userDAO.addUser(user);
 
 	}

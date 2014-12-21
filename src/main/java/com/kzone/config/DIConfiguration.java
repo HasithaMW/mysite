@@ -9,9 +9,9 @@ import com.kzone.dao.UserDAO;
 import com.kzone.dao.UserDAOImpl;
 import com.kzone.service.UserService;
 import com.kzone.service.UserServiceImpl;
-import com.kzone.util.DESEncryption;
-import com.kzone.util.EncryptionUtil;
 import com.kzone.util.HibernateInterceptor;
+import com.kzone.util.encryption.DESEncryption;
+import com.kzone.util.encryption.EncryptionUtil;
 
 
 @Configuration

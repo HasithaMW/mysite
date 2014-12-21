@@ -1,4 +1,4 @@
-package com.kzone.util;
+package com.kzone.util.encryption;
 
 public interface EncryptionUtil {
 

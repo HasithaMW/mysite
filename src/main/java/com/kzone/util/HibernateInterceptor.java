@@ -35,6 +35,15 @@ public class HibernateInterceptor implements Interceptor {
 
 	public boolean onSave(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
+		
+		for (int i = 0; i < propertyNames.length; i++) {
+			if("createdDate".equals(propertyNames[i])){
+				state[i] = new Timestamp(System.currentTimeMillis());
+			}else if("disabled".equals(propertyNames[i])){
+				state[i] = Boolean.FALSE;
+			}
+		}
+		
 		return false;
 	}
 
@@ -74,14 +83,14 @@ public class HibernateInterceptor implements Interceptor {
 
 	public Boolean isTransient(Object entity) {
 
-		if(entity instanceof BaseEntity){
-			BaseEntity baseEntity = (BaseEntity)entity;
-			if(baseEntity.getId()== null){
-				baseEntity.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-				baseEntity.setDisabled(Boolean.FALSE);
-				return true;
-			}
-		}
+//		if(entity instanceof BaseEntity){
+//			BaseEntity baseEntity = (BaseEntity)entity;
+//			if(baseEntity.getId()== null){
+//				baseEntity.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+//				baseEntity.setDisabled(Boolean.FALSE);
+//				return true;
+//			}
+//		}
 		return null;
 	}
 
