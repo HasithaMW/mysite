@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 @Singleton
 public class PasswordHash implements HashUtil {
 
+	// this code from https://crackstation.net/hashing-security.htm
+	
+	
 	private static final String PBKDF2_ALGORITHM  = "PBKDF2WithHmacSHA1";
 	private static final int    SALT_BYTE_SIZE    = 32;
 	private static final int    HASH_BYTE_SIZE    = 32;
