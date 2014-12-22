@@ -52,18 +52,18 @@ public class HomeController {
 	public String getSave(@RequestBody User user) {
 		System.out.println(user);
 		userService.addUser(user);
-		try {
-			
-			String createHash = hashUtil.createHash(user.getUserName());
-			System.out.println(createHash);
-			Boolean validateString = hashUtil.validateString(user.getUserName(), createHash);
-			System.out.println("validateString : " +validateString);
-			
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		try {
+//			
+//			String createHash = hashUtil.createHash(user.getUserName());
+//			System.out.println(createHash);
+//			Boolean validateString = hashUtil.validateString(user.getUserName(), createHash);
+//			System.out.println("validateString : " +validateString);
+//			
+//		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		System.out.println("HomeController.getSave()");
 		return "";
 	}

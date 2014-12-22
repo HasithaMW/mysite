@@ -1,6 +1,8 @@
 package com.kzone.util;
 
+import java.beans.IntrospectionException;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
@@ -9,11 +11,15 @@ import org.hibernate.EntityMode;
 import org.hibernate.Interceptor;
 import org.hibernate.Transaction;
 import org.hibernate.type.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kzone.entity.BaseEntity;
+import com.kzone.util.encryption.annotation.Hash;
 
 public class HibernateInterceptor implements Interceptor {
 
+	@Autowired
+	private ObjectInterceptor objectInterceptor;
+	
 	public boolean onLoad(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
 		// TODO Auto-generated method stub
@@ -42,6 +48,21 @@ public class HibernateInterceptor implements Interceptor {
 			}else if("disabled".equals(propertyNames[i])){
 				state[i] = Boolean.FALSE;
 			}
+			
+			try {
+				Method getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
+				Method setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
+				boolean annotationPresent = getterForProperty.isAnnotationPresent(Hash.class);
+				if(annotationPresent){
+					System.out.println("Hash annotationPresent :" + annotationPresent);
+					System.out.println("method  :" + getterForProperty);
+				}
+				
+			} catch (IntrospectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 		return false;

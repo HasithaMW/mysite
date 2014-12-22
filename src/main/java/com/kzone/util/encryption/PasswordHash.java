@@ -17,15 +17,15 @@ public class PasswordHash implements HashUtil {
 
 	// this code from https://crackstation.net/hashing-security.htm
 	
-	
-	private static final String PBKDF2_ALGORITHM  = "PBKDF2WithHmacSHA1";
-	private static final int    SALT_BYTE_SIZE    = 32;
-	private static final int    HASH_BYTE_SIZE    = 32;
-	private static final int    PBKDF2_ITERATIONS = 1000;
+	//"PBKDF2WithHmacSHA1"
+	private 	  String algorithm       = null;
+	private  	  int    saltByteSize    = 0;
+	private       int    hashByteSize    = 0;
+	private final int    iterations      = 1000;
 
-	private static final int    ITERATION_INDEX   = 0;
-	private static final int    SALT_INDEX        = 1;
-	private static final int    PBKDF2_INDEX      = 2;
+	private final int    iterationIndex   = 0;
+	private final int    saltIndex        = 1;
+	private final int    hashIndex        = 2;
 
 	
 	public String createHash(String password) throws NoSuchAlgorithmException,
@@ -33,6 +33,32 @@ public class PasswordHash implements HashUtil {
 		return createHash(password.toCharArray());
 	}
 
+	@Override
+	public void setHashAlgorithm(String algorithm) {
+		
+		assert this.algorithm == null : "algorithm is not null, Object is Singleton cant change the value";  
+		
+		this.algorithm = algorithm;
+	}
+	
+	@Override
+	public void setSaltByteSize(int saltByteSize){
+		
+		assert saltByteSize == 0 : "saltByteSize must have a size > 24";
+		assert this.saltByteSize > 24 : "saltByteSize is set, Object is Singleton cant change the value";  
+		
+		this.saltByteSize= saltByteSize;
+	}
+	
+	@Override
+	public void setHashByteSize(int hashByteSize){
+		
+		assert hashByteSize == 0 : "hashByteSize must have a size > 24";
+		assert this.hashByteSize > 24 : "hashByteSize is set, Object is Singleton cant change the value";  
+		
+		this.hashByteSize = hashByteSize;
+	}
+	
 	/**
 	 * Returns a salted PBKDF2 hash of the password.
 	 *
@@ -41,14 +67,17 @@ public class PasswordHash implements HashUtil {
 	 */
 	private String createHash(char[] password) throws NoSuchAlgorithmException,
 			InvalidKeySpecException {
+		
+		assert algorithm != null : "algoritm cannot be null";
+		
 		// Generate a random salt
 		SecureRandom random = new SecureRandom();
-		byte []      salt   = new byte[SALT_BYTE_SIZE];
+		byte []      salt   = new byte[saltByteSize];
 		random.nextBytes(salt);
 		// Hash the password
-		byte []      hash   = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
+		byte []      hash   = pbkdf2(password, salt, iterations, hashByteSize);
 		// format iterations:salt:hash
-		return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" + toHex(hash);
+		return iterations + ":" + toHex(salt) + ":" + toHex(hash);
 	}
 
 	
@@ -56,7 +85,7 @@ public class PasswordHash implements HashUtil {
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		return validatePassword(password.toCharArray(), correctHash);
 	}
-
+	
 	/**
 	 * Validates a password using a hash.
 	 *
@@ -68,9 +97,9 @@ public class PasswordHash implements HashUtil {
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Decode the hash into its parameters
 		String [] params     = correctHash.split(":");
-		int       iterations = Integer.parseInt(params[ITERATION_INDEX]);
-		byte   [] salt       = fromHex(params[SALT_INDEX]);
-		byte   [] hash       = fromHex(params[PBKDF2_INDEX]);
+		int       iterations = Integer.parseInt(params[iterationIndex]);
+		byte   [] salt       = fromHex(params[saltIndex]);
+		byte   [] hash       = fromHex(params[hashIndex]);
 		// Compute the hash of the provided password, using the same salt,
 		// iteration count, and hash length
 		byte   [] testHash   = pbkdf2(password, salt, iterations, hash.length);
@@ -110,7 +139,7 @@ public class PasswordHash implements HashUtil {
 			int bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
 		PBEKeySpec       spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
-		SecretKeyFactory skf  = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
+		SecretKeyFactory skf  = SecretKeyFactory.getInstance(algorithm);
 		
 		return skf.generateSecret(spec).getEncoded();
 	}
