@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import com.kzone.entity.type.Address;
 import com.kzone.entity.type.Image;
 import com.kzone.entity.type.Name;
+import com.kzone.util.encryption.annotation.Hash;
 
 @Entity
 public class Member extends BaseEntity {
@@ -25,7 +26,7 @@ public class Member extends BaseEntity {
 	private Date      dob;
 	private String    telephone;
 	private String    email;//FIXME encrypt this
-	private String    password;//FIXME encrypt this
+	private String    password;
 	private Image     profileImage;
 	private Timestamp lastLogindate;
 	
@@ -71,6 +72,7 @@ public class Member extends BaseEntity {
 		this.email = email;
 	}
 	
+	@Hash
 	@Column(nullable=false)
 	public String getPassword() {
 		return password;

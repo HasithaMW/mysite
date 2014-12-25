@@ -5,16 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.kzone.util.encryption.HashUtil;
-import com.kzone.util.encryption.PasswordHash;
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.METHOD})
 public @interface Hash {
 
-	String algorithm()    default "PBKDF2WithHmacSHA1";
-	int    saltByteSize() default 24;
-	int    hashByteSize() default 24;
-
-	Class<? extends HashUtil> classToUse() default PasswordHash.class;
+//	String algorithm()    default "PBKDF2WithHmacSHA1";
+//	int    saltByteSize() default 24;
+//	int    hashByteSize() default 24;
+//
+//	Class<? extends HashUtil> classToUse() default PasswordHash.class;
 }

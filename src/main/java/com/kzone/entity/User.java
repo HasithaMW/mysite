@@ -10,13 +10,12 @@ public class User extends BaseEntity  {
 
 	private static final long serialVersionUID = 1L;
 	
-	
 	private String userName;
 	private String lastName;
-
+	private String password;
+	
 	
 	@Column
-	@Hash
 	public String getUserName() {
 		return userName;
 	}
@@ -30,6 +29,15 @@ public class User extends BaseEntity  {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	@Hash
+	@Column
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	

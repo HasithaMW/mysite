@@ -35,6 +35,7 @@
 		        <input type="text" name="userName" ng-model="userForm.userName" 
 		        		ng-class="userForm.getFormFieldCssClass(userNg.userName)" ng-minlength="2" > First name <br/>
 		        <input type="text" name="lastName"  ng-model="userForm.lastName"> Last name <br/>
+		        <input type="password" name="password"  ng-model="userForm.password"> password <br/>
 		    </form>
 		
 <!-- 		    <div> -->
@@ -67,6 +68,7 @@
            var user = {
            	userName : $scope.userForm.userName
               ,lastName  : $scope.userForm.lastName
+              ,password  : $scope.userForm.password
            };
            
            $http.defaults.headers.post["Content-Type"] = "application/json";
