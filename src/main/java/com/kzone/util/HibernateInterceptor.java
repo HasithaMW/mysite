@@ -2,7 +2,10 @@ package com.kzone.util;
 
 import java.beans.IntrospectionException;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
@@ -11,14 +14,23 @@ import org.hibernate.EntityMode;
 import org.hibernate.Interceptor;
 import org.hibernate.Transaction;
 import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kzone.util.encryption.HashUtil;
 import com.kzone.util.encryption.annotation.Hash;
 
 public class HibernateInterceptor implements Interceptor {
 
 	@Autowired
 	private ObjectInterceptor objectInterceptor;
+	
+	@Autowired
+	private HashUtil passHashUtil;
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(HibernateInterceptor.class);
 	
 	public boolean onLoad(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
@@ -33,7 +45,7 @@ public class HibernateInterceptor implements Interceptor {
 		for (int i = 0; i < propertyNames.length; i++) {
 			if("modifiedDate".equals(propertyNames[i])){
 				currentState[i] = new Timestamp(System.currentTimeMillis());
-				return true;
+//				return true;
 			}
 		}
 		return false;
@@ -43,26 +55,37 @@ public class HibernateInterceptor implements Interceptor {
 			String[] propertyNames, Type[] types) throws CallbackException {
 		
 		for (int i = 0; i < propertyNames.length; i++) {
-			if("createdDate".equals(propertyNames[i])){
-				state[i] = new Timestamp(System.currentTimeMillis());
-			}else if("disabled".equals(propertyNames[i])){
-				state[i] = Boolean.FALSE;
-			}
+			
+			Method getterForProperty = null;
+			Method setterForProperty = null;
 			
 			try {
-				Method getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
-				Method setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
-				boolean annotationPresent = getterForProperty.isAnnotationPresent(Hash.class);
-				if(annotationPresent){
-					System.out.println("Hash annotationPresent :" + annotationPresent);
-					System.out.println("method  :" + getterForProperty);
+				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
+				setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
+				
+				boolean hashAnnotationPresent = getterForProperty.isAnnotationPresent(Hash.class);
+				
+				if(hashAnnotationPresent){
+					String hash = null;
+					try {
+						hash = passHashUtil.createHash(state[i].toString());
+					} catch (NoSuchAlgorithmException | InvalidKeySpecException hashException) {
+						logger.error("Fail to hash with the exception " + hashException);
+					}
+					
+					objectInterceptor.invokeMethod(entity, setterForProperty,  hash);
+					
+				}else if("createdDate".equals(propertyNames[i])){
+					objectInterceptor.invokeMethod(entity, setterForProperty,  new Timestamp(System.currentTimeMillis()));
+					
+				}else if("disabled".equals(propertyNames[i])){
+					objectInterceptor.invokeMethod(entity, setterForProperty, Boolean.FALSE);
+					
 				}
 				
-			} catch (IntrospectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+				logger.error("Error when getting methods : "+ e1);
 			}
-			
 		}
 		
 		return false;
@@ -106,11 +129,7 @@ public class HibernateInterceptor implements Interceptor {
 
 //		if(entity instanceof BaseEntity){
 //			BaseEntity baseEntity = (BaseEntity)entity;
-//			if(baseEntity.getId()== null){
-//				baseEntity.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-//				baseEntity.setDisabled(Boolean.FALSE);
-//				return true;
-//			}
+//			return baseEntity.getId()== null;
 //		}
 		return null;
 	}

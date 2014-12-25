@@ -5,23 +5,31 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Singleton;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
 @Singleton
+@PropertySource(value = { "classpath:security.properties" })
 public class PasswordHash implements HashUtil {
 
 	// this code from https://crackstation.net/hashing-security.htm
+	
+	@Autowired
+	private Environment environment;
 	
 	//"PBKDF2WithHmacSHA1"
 	private 	  String algorithm       = null;
 	private  	  int    saltByteSize    = 0;
 	private       int    hashByteSize    = 0;
-	private final int    iterations      = 1000;
+	private       int    iterations      = 1000;
 
 	private final int    iterationIndex   = 0;
 	private final int    saltIndex        = 1;
@@ -33,28 +41,42 @@ public class PasswordHash implements HashUtil {
 		return createHash(password.toCharArray());
 	}
 
-	@Override
-	public void setHashAlgorithm(String algorithm) {
+	@PostConstruct
+	private void PasswordHash(){
+		
+		String algorithm         =  environment.getRequiredProperty("hash.algorithm");
+		int    saltByteSize      =  Integer.parseInt(environment.getRequiredProperty("hash.saltByteSize"));
+		int    hashByteSize      =  Integer.parseInt(environment.getRequiredProperty("hash.hashByteSize"));
+		
+		setHashAlgorithm(algorithm);
+		setHashByteSize(hashByteSize);
+		setSaltByteSize(saltByteSize);
+		
+	}
+	
+	
+
+	private void setHashAlgorithm(String algorithm) {
 		
 		assert this.algorithm == null : "algorithm is not null, Object is Singleton cant change the value";  
 		
 		this.algorithm = algorithm;
 	}
 	
-	@Override
-	public void setSaltByteSize(int saltByteSize){
+
+	private void setSaltByteSize(int saltByteSize){
 		
-		assert saltByteSize == 0 : "saltByteSize must have a size > 24";
-		assert this.saltByteSize > 24 : "saltByteSize is set, Object is Singleton cant change the value";  
+		assert saltByteSize      > 24 : "saltByteSize must have a size > 24";
+		assert this.saltByteSize == 0 : "saltByteSize is set, Object is Singleton cant change the value";  
 		
 		this.saltByteSize= saltByteSize;
 	}
 	
-	@Override
-	public void setHashByteSize(int hashByteSize){
+
+	private void setHashByteSize(int hashByteSize){
 		
-		assert hashByteSize == 0 : "hashByteSize must have a size > 24";
-		assert this.hashByteSize > 24 : "hashByteSize is set, Object is Singleton cant change the value";  
+		assert hashByteSize      > 24 : "hashByteSize must have a size > 24";
+		assert this.hashByteSize == 0 : "hashByteSize is set, Object is Singleton cant change the value";  
 		
 		this.hashByteSize = hashByteSize;
 	}

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Singleton
-@PropertySource(value = { "classpath:resources.properties" })
+@PropertySource(value = { "classpath:security.properties" })
 public class DESEncryption implements EncryptionUtil {
 
 	@Autowired

@@ -23,9 +23,4 @@ public interface HashUtil {
 	public Boolean validateString(String password, String correctHash)throws NoSuchAlgorithmException, InvalidKeySpecException;
 	
 	
-	public void setHashAlgorithm(String algorithm);
-	
-	public void setSaltByteSize(int saltByteSize);
-	
-	public void setHashByteSize(int hashByteSize);
 }
