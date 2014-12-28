@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kzone.util.encryption.HashUtil;
+import com.kzone.util.encryption.annotation.Encrypt;
 import com.kzone.util.encryption.annotation.Hash;
 
 public class HibernateInterceptor implements Interceptor {
@@ -34,7 +35,38 @@ public class HibernateInterceptor implements Interceptor {
 	
 	public boolean onLoad(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
-		// TODO Auto-generated method stub
+		//TODO implement decryption 
+//		for (int i = 0; i < propertyNames.length; i++) {
+//			
+//			Method getterForProperty = null;
+//			Method setterForProperty = null;
+//			
+//			try {
+//				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
+//				setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
+//				
+//				boolean hashAnnotationPresent    = getterForProperty.isAnnotationPresent(Hash.class);
+//				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
+//				
+//				if(encryptAnnotationPresent){
+//					
+//				}else if(hashAnnotationPresent){
+//					String hash = null;
+//					try {
+//						hash = passHashUtil.createHash(state[i].toString());
+//					} catch (NoSuchAlgorithmException | InvalidKeySpecException hashException) {
+//						logger.error("Fail to hash the "+propertyNames[i] +" with the exception " + hashException);
+//					}
+//					
+//					objectInterceptor.invokeMethod(entity, setterForProperty,  hash);
+//					
+//				}
+//				
+//			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+//				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
+//			}
+//		}
+		
 		return false;
 	}
 
@@ -42,13 +74,40 @@ public class HibernateInterceptor implements Interceptor {
 			Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) throws CallbackException {
 		
+		
+		
 		for (int i = 0; i < propertyNames.length; i++) {
-			if("modifiedDate".equals(propertyNames[i])){
-				currentState[i] = new Timestamp(System.currentTimeMillis());
-//				return true;
+			
+			Method getterForProperty = null;
+			
+			try {
+				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
+				
+				boolean hashAnnotationPresent    = getterForProperty.isAnnotationPresent(Hash.class);
+				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
+				
+				if(encryptAnnotationPresent){
+					//TODO need to implement encryption
+				}else if(hashAnnotationPresent){
+					String hash = null;
+					try {
+						hash = passHashUtil.createHash(currentState[i].toString());
+						
+					} catch (NoSuchAlgorithmException | InvalidKeySpecException hashException) {
+						logger.error("Fail to hash the "+propertyNames[i] +" with the exception " + hashException);
+					}
+					currentState[i] = hash;
+					
+				}else if("modifiedDate".equals(propertyNames[i])){
+					currentState[i] = new Timestamp(System.currentTimeMillis());
+				}
+				
+			} catch (IntrospectionException | IllegalArgumentException  e1) {
+				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
 			}
+			
 		}
-		return false;
+		return true;
 	}
 
 	public boolean onSave(Object entity, Serializable id, Object[] state,
@@ -57,38 +116,39 @@ public class HibernateInterceptor implements Interceptor {
 		for (int i = 0; i < propertyNames.length; i++) {
 			
 			Method getterForProperty = null;
-			Method setterForProperty = null;
 			
 			try {
 				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
-				setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
 				
-				boolean hashAnnotationPresent = getterForProperty.isAnnotationPresent(Hash.class);
+				boolean hashAnnotationPresent    = getterForProperty.isAnnotationPresent(Hash.class);
+				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
 				
-				if(hashAnnotationPresent){
+				if(encryptAnnotationPresent){
+					//TODO need to implement encryption
+				}else if(hashAnnotationPresent){
 					String hash = null;
 					try {
 						hash = passHashUtil.createHash(state[i].toString());
+						
 					} catch (NoSuchAlgorithmException | InvalidKeySpecException hashException) {
-						logger.error("Fail to hash with the exception " + hashException);
+						logger.error("Fail to hash the "+propertyNames[i] +" with the exception " + hashException);
 					}
-					
-					objectInterceptor.invokeMethod(entity, setterForProperty,  hash);
+					state[i] = hash;
 					
 				}else if("createdDate".equals(propertyNames[i])){
-					objectInterceptor.invokeMethod(entity, setterForProperty,  new Timestamp(System.currentTimeMillis()));
+					state[i] = new Timestamp(System.currentTimeMillis());
 					
 				}else if("disabled".equals(propertyNames[i])){
-					objectInterceptor.invokeMethod(entity, setterForProperty, Boolean.FALSE);
+					state[i] = Boolean.FALSE;
 					
 				}
 				
-			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-				logger.error("Error when getting methods : "+ e1);
+			} catch (IntrospectionException | IllegalArgumentException  e1) {
+				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
 			}
 		}
 		
-		return false;
+		return true;
 	}
 
 	public void onDelete(Object entity, Serializable id, Object[] state,

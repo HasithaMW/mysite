@@ -2,6 +2,7 @@ package com.kzone.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -64,5 +65,17 @@ public class UserDAOImpl implements UserDAO {
 		}
 		logger.info("User deleted successfully, user details=" + user);
 	}
+
+	@Override
+	public void resetPassword(User user) {
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "UPDATE User set password = :password WHERE id = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("password", user.getPassword());
+		query.setParameter("id", user.getId());
+		int result = query.executeUpdate();
+	}
+	
+
 
 }

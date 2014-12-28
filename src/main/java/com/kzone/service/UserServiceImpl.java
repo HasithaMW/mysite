@@ -54,4 +54,11 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Transactional
+	public void resetPassword(User user) {
+		this.userDAO.resetPassword(user);		
+	}
+	
+	
+
 }

@@ -52,6 +52,12 @@ public class HomeController {
 	public String getSave(@RequestBody User user) {
 		System.out.println(user);
 		userService.addUser(user);
+		
+		user.setPassword("");
+		userService.resetPassword(user);
+		
+		
+		
 //		try {
 //			
 //			String createHash = hashUtil.createHash(user.getUserName());

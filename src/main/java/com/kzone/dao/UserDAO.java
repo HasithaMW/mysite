@@ -11,5 +11,7 @@ public interface UserDAO {
     public List<User> listUsers();
     public User getUserById(Long id);
     public void removeUser(Long id);
+    
+    public void resetPassword(User user);
 	
 }

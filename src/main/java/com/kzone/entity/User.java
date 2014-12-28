@@ -32,10 +32,11 @@ public class User extends BaseEntity  {
 	}
 	
 	@Hash
-	@Column
+	@Column(updatable=false)
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
