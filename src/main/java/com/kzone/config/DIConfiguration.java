@@ -10,7 +10,7 @@ import com.kzone.dao.UserDAOImpl;
 import com.kzone.service.UserService;
 import com.kzone.service.UserServiceImpl;
 import com.kzone.util.HibernateInterceptor;
-import com.kzone.util.encryption.DESEncryption;
+import com.kzone.util.encryption.AESEncryption;
 import com.kzone.util.encryption.EncryptionUtil;
 
 
@@ -28,9 +28,9 @@ public class DIConfiguration {
         return new UserDAOImpl();
     }
 	
-	@Bean(name="DESEncryption")
+	@Bean(name="AESEncryption")
 	public EncryptionUtil getDESEncryption() {
-		return new DESEncryption();
+		return new AESEncryption();
 	}
 	
 	@Bean

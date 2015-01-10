@@ -1,5 +1,8 @@
 package com.kzone.dao;
 
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kzone.entity.User;
+import com.kzone.util.encryption.HashUtil;
 
 @Repository
 // mark this as a DAO
@@ -21,6 +25,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private HashUtil passHashUtil;
 
 	public UserDAOImpl() {	
 	}
@@ -67,13 +74,21 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void resetPassword(User user) {
+	public void resetPassword(User user) throws GeneralSecurityException {
 		Session session = this.sessionFactory.getCurrentSession();
+		
+		try {
+			passHashUtil.createHash(user.getPassword());
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			logger.info("Failed to hash the password" + user);
+			throw e;
+		}
+		
 		String hql = "UPDATE User set password = :password WHERE id = :id";
 		Query query = session.createQuery(hql);
 		query.setParameter("password", user.getPassword());
 		query.setParameter("id", user.getId());
-		int result = query.executeUpdate();
+		query.executeUpdate();
 	}
 	
 

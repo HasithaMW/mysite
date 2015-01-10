@@ -2,8 +2,9 @@ package com.kzone.util;
 
 import java.beans.IntrospectionException;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
@@ -17,7 +18,9 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.kzone.util.encryption.EncryptionUtil;
 import com.kzone.util.encryption.HashUtil;
 import com.kzone.util.encryption.annotation.Encrypt;
 import com.kzone.util.encryption.annotation.Hash;
@@ -30,42 +33,39 @@ public class HibernateInterceptor implements Interceptor {
 	@Autowired
 	private HashUtil passHashUtil;
 	
+	@Autowired
+	@Qualifier("AESEncryption")
+	private EncryptionUtil encryptionUtil;
+	
 	private static final Logger logger = LoggerFactory
 			.getLogger(HibernateInterceptor.class);
 	
 	public boolean onLoad(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
-		//TODO implement decryption 
-//		for (int i = 0; i < propertyNames.length; i++) {
-//			
-//			Method getterForProperty = null;
-//			Method setterForProperty = null;
-//			
-//			try {
-//				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
-//				setterForProperty = objectInterceptor.getSetterForProperty(entity, propertyNames[i]);
-//				
-//				boolean hashAnnotationPresent    = getterForProperty.isAnnotationPresent(Hash.class);
-//				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
-//				
-//				if(encryptAnnotationPresent){
-//					
-//				}else if(hashAnnotationPresent){
-//					String hash = null;
-//					try {
-//						hash = passHashUtil.createHash(state[i].toString());
-//					} catch (NoSuchAlgorithmException | InvalidKeySpecException hashException) {
-//						logger.error("Fail to hash the "+propertyNames[i] +" with the exception " + hashException);
-//					}
-//					
-//					objectInterceptor.invokeMethod(entity, setterForProperty,  hash);
-//					
-//				}
-//				
-//			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-//				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
-//			}
-//		}
+		
+		for (int i = 0; i < propertyNames.length; i++) {
+			
+			Method getterForProperty = null;
+			
+			try {
+				getterForProperty = objectInterceptor.getGetterForProperty(entity, propertyNames[i]);
+				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
+				
+				if(encryptAnnotationPresent){
+					try {
+						String encrypt = encryptionUtil.decrypt(state[i].toString());
+						state[i] = encrypt;
+						
+					} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+						logger.error("Fail to decrypt the "+propertyNames[i] +" with the exception " + e);
+						throw e;
+					}
+				}
+				
+			} catch ( IntrospectionException | UnsupportedEncodingException | GeneralSecurityException e1) {
+				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
+			}
+		}
 		
 		return false;
 	}
@@ -73,8 +73,6 @@ public class HibernateInterceptor implements Interceptor {
 	public boolean onFlushDirty(Object entity, Serializable id,
 			Object[] currentState, Object[] previousState,
 			String[] propertyNames, Type[] types) throws CallbackException {
-		
-		
 		
 		for (int i = 0; i < propertyNames.length; i++) {
 			
@@ -87,7 +85,15 @@ public class HibernateInterceptor implements Interceptor {
 				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
 				
 				if(encryptAnnotationPresent){
-					//TODO need to implement encryption
+					try {
+						String encrypt = encryptionUtil.encrypt(currentState[i].toString());
+						currentState[i] = encrypt;
+						
+					} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+						logger.error("Fail to encrypt the "+propertyNames[i] +" with the exception " + e);
+						throw e;
+					}
+					
 				}else if(hashAnnotationPresent){
 					String hash = null;
 					try {
@@ -102,8 +108,9 @@ public class HibernateInterceptor implements Interceptor {
 					currentState[i] = new Timestamp(System.currentTimeMillis());
 				}
 				
-			} catch (IntrospectionException | IllegalArgumentException  e1) {
-				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
+			} catch (IntrospectionException | IllegalArgumentException | UnsupportedEncodingException | GeneralSecurityException  e1) {
+				logger.error("Error for "+propertyNames[i]+" : exception "+ e1);
+				throw new CallbackException(e1.getMessage(), e1);
 			}
 			
 		}
@@ -124,7 +131,14 @@ public class HibernateInterceptor implements Interceptor {
 				boolean encryptAnnotationPresent = getterForProperty.isAnnotationPresent(Encrypt.class);
 				
 				if(encryptAnnotationPresent){
-					//TODO need to implement encryption
+					try {
+						String encrypt = encryptionUtil.encrypt(state[i].toString());
+						state[i] = encrypt;
+						
+					} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+						logger.error("Fail to encrypt the "+propertyNames[i] +" with the exception " + e);
+						throw e;
+					}
 				}else if(hashAnnotationPresent){
 					String hash = null;
 					try {
@@ -143,8 +157,9 @@ public class HibernateInterceptor implements Interceptor {
 					
 				}
 				
-			} catch (IntrospectionException | IllegalArgumentException  e1) {
-				logger.error("Error when getting methods for "+propertyNames[i]+" : exception "+ e1);
+			} catch (IntrospectionException | IllegalArgumentException | UnsupportedEncodingException | GeneralSecurityException e1) {
+				logger.error("Error for "+propertyNames[i]+" : exception "+ e1);
+				throw new CallbackException(e1.getMessage(), e1);
 			}
 		}
 		

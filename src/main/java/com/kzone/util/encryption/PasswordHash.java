@@ -42,7 +42,7 @@ public class PasswordHash implements HashUtil {
 	}
 
 	@PostConstruct
-	private void PasswordHash(){
+	private void passwordHash(){
 		
 		String algorithm         =  environment.getRequiredProperty("hash.algorithm");
 		int    saltByteSize      =  Integer.parseInt(environment.getRequiredProperty("hash.saltByteSize"));

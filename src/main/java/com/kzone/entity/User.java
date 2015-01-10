@@ -3,6 +3,7 @@ package com.kzone.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.kzone.util.encryption.annotation.Encrypt;
 import com.kzone.util.encryption.annotation.Hash;
 
 @Entity
@@ -15,6 +16,7 @@ public class User extends BaseEntity  {
 	private String password;
 	
 	
+	@Encrypt
 	@Column
 	public String getUserName() {
 		return userName;

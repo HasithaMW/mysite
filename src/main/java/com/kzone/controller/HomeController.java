@@ -1,7 +1,7 @@
 package com.kzone.controller;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kzone.entity.User;
 import com.kzone.service.UserService;
+import com.kzone.util.encryption.EncryptionUtil;
 import com.kzone.util.encryption.HashUtil;
 
 @Controller
@@ -32,6 +33,10 @@ public class HomeController {
 
 	@Autowired
 	private HashUtil hashUtil;
+	
+	@Autowired
+	@Qualifier("AESEncryption")
+	private EncryptionUtil encryptionUtil;
 	
 	public HomeController() {
 
@@ -50,26 +55,9 @@ public class HomeController {
 	@RequestMapping(value = "/save",method = RequestMethod.POST,consumes="application/json",produces = "application/json")
 	@ResponseBody
 	public String getSave(@RequestBody User user) {
-		System.out.println(user);
+		
 		userService.addUser(user);
-		
-		user.setPassword("");
-		userService.resetPassword(user);
-		
-		
-		
-//		try {
-//			
-//			String createHash = hashUtil.createHash(user.getUserName());
-//			System.out.println(createHash);
-//			Boolean validateString = hashUtil.validateString(user.getUserName(), createHash);
-//			System.out.println("validateString : " +validateString);
-//			
-//		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
+
 		System.out.println("HomeController.getSave()");
 		return "";
 	}

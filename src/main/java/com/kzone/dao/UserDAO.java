@@ -1,5 +1,6 @@
 package com.kzone.dao;
 
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import com.kzone.entity.User;
@@ -12,6 +13,6 @@ public interface UserDAO {
     public User getUserById(Long id);
     public void removeUser(Long id);
     
-    public void resetPassword(User user);
+    public void resetPassword(User user)throws GeneralSecurityException;
 	
 }

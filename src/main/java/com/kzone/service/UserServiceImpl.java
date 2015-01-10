@@ -1,5 +1,6 @@
 package com.kzone.service;
 
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kzone.dao.UserDAO;
 import com.kzone.entity.User;
-import com.kzone.util.encryption.EncryptionUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,16 +18,12 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userDaAO")
 	private UserDAO userDAO;
 	
-	@Autowired
-	@Qualifier("DESEncryption")
-	private EncryptionUtil encryptionUtil;
-	
 	public UserServiceImpl() {
 	}
 	
 	@Transactional
 	public void addUser(User user) {
-		this.encryptionUtil.encrypt("");
+		
 		this.userDAO.addUser(user);
 
 	}
@@ -55,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public void resetPassword(User user) {
+	public void resetPassword(User user)throws GeneralSecurityException{
 		this.userDAO.resetPassword(user);		
 	}
 	

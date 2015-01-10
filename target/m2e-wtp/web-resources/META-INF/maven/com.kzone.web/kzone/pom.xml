@@ -171,6 +171,13 @@
 		<version>1.9.13</version>
 	</dependency>
      
+     <!-- For encryption  -->
+    <dependency>
+		<groupId>org.bouncycastle</groupId>
+		<artifactId>bcprov-jdk15on</artifactId>
+		<version>1.51</version>
+	</dependency>
+	     
     
   </dependencies>
   <build>
