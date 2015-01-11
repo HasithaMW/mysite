@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kzone.entity.User;
 import com.kzone.service.UserService;
-import com.kzone.util.encryption.EncryptionUtil;
-import com.kzone.util.encryption.HashUtil;
 
 @Controller
 @RequestMapping("/home")

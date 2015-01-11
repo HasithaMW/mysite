@@ -3,6 +3,8 @@ package com.kzone.entity.type;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.kzone.util.encryption.annotation.Encrypt;
+
 @Embeddable
 public class Name {
 
@@ -10,6 +12,7 @@ public class Name {
 	private String middleName;
 	private String lastName;
 	
+	@Encrypt
 	@Column(nullable=false,length=255)
 	public String getFirstName() {
 		return firstName;
@@ -18,6 +21,7 @@ public class Name {
 		this.firstName = firstName;
 	}
 	
+	@Encrypt
 	@Column(nullable=true,length=255)
 	public String getMiddleName() {
 		return middleName;
@@ -26,6 +30,7 @@ public class Name {
 		this.middleName = middleName;
 	}
 	
+	@Encrypt
 	@Column(nullable=false,length=255)
 	public String getLastName() {
 		return lastName;

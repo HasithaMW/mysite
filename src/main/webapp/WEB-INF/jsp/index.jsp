@@ -12,7 +12,8 @@
    <script type="text/javascript" src="resources/js/angularjs/angular.min.js"></script>
    <script type="text/javascript" src="resources/js/angularjs/angular-route.min.js"></script>
    <script type="text/javascript" src="resources/js/angularjs/angular-resource.min.js"></script>
-
+	<script type="text/javascript" src="resources/js/angularstrap/angular-strap.min.js"></script>
+	<script type="text/javascript" src="resources/js/angularstrap/angular-strap.tpl.min.js"></script>
 	<style>
 	    .fieldValid {
 	        border: 1px solid #00ff00;
@@ -45,7 +46,8 @@
 		    <div ng-show="userNg.userName.$invalid">
 	            You must enter a valid name.
 	        </div>
-		    <button ng-click="userForm.submitTheForm()">Submit Form</button>
+		    <button ng-click="userForm.submitTheForm()" class="btn btn-lg btn-primary" 
+		    	data-animation="am-fade-and-scale" data-placement="center" bs-modal="modal">Submit Form</button>
 		</div>
 		
 		<div ng-view></div>
@@ -60,8 +62,14 @@
 	}
   	
   	
-	 var app =   angular.module("app", ['ngRoute']);
+	 var app =   angular.module("app", ['ngRoute','mgcrea.ngStrap']);
 	 app.controller("MyController", function($scope, $http,$route,$location) {
+		 
+		 $scope.modal = {
+				  "title": "Title",
+				  "content": "Hello Modal<br />This is a multiline message!"
+				};
+		 
            $scope.userForm = {};
            $scope.userForm.submitTheForm = function(item, event) {
 
