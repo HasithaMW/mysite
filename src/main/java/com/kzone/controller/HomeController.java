@@ -1,8 +1,5 @@
 package com.kzone.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,13 +27,6 @@ public class HomeController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
-
-	@Autowired
-	private HashUtil hashUtil;
-	
-	@Autowired
-	@Qualifier("AESEncryption")
-	private EncryptionUtil encryptionUtil;
 	
 	public HomeController() {
 

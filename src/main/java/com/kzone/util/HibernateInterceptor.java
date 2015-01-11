@@ -34,12 +34,13 @@ public class HibernateInterceptor implements Interceptor {
 	private HashUtil passHashUtil;
 	
 	@Autowired
-	@Qualifier("AESEncryption")
+	@Qualifier("encryption")
 	private EncryptionUtil encryptionUtil;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(HibernateInterceptor.class);
 	
+	@Override
 	public boolean onLoad(Object entity, Serializable id, Object[] state,
 			String[] propertyNames, Type[] types) throws CallbackException {
 		

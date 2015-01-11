@@ -25,9 +25,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Singleton
 @PropertySource(value = { "classpath:security.properties" })
-public class AESEncryption implements EncryptionUtil {
+public class EncryptionUtilImpl implements EncryptionUtil {
 
-	private static final  Logger logger = LoggerFactory.getLogger(AESEncryption.class);
+	private static final  Logger logger = LoggerFactory.getLogger(EncryptionUtilImpl.class);
 	static{
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 	}
@@ -41,18 +41,22 @@ public class AESEncryption implements EncryptionUtil {
 	@PostConstruct
 	private void passwordHash() throws GeneralSecurityException, UnsupportedEncodingException{
 		
-		String stringKeay = environment.getRequiredProperty("aes.key");
+		String stringKeay     = environment.getRequiredProperty("encrypt.key");
+		String algorithm      = environment.getRequiredProperty("encrypt.algorithm");
+		String encrtyptcipher = environment.getRequiredProperty("encrypt.cipher");
 		
-		assert stringKeay != null : "AES key is null! Please set add the aes.key to security.properties";  
+		assert stringKeay     != null : "Encryption key is null! Please set add the encrypt.key to security.properties"; 
+		assert algorithm      != null : "Encryption algorithm is null! Please set add the encrypt.algorithm to security.properties"; 
+		assert encrtyptcipher != null : "Encryption algorithm is null! Please set add the encrypt.cipher to security.properties"; 
 		
-		byte[] bytes      = stringKeay.getBytes("UTF-8");
-		int    length     = bytes.length;
+		byte[] bytes          = stringKeay.getBytes("UTF-8");
+		int    length         = bytes.length;
 		
-		assert length == 16 || length == 24 || length == 32 : "Key length not 16/24/32 bits";  
+		assert length == 16 || length == 24 || length == 32 : "Key length not 16/24/32 bytes";  
 		
-		key = new SecretKeySpec(bytes, "AES");
+		key = new SecretKeySpec(bytes, algorithm);
 		try {
-			cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+			cipher = Cipher.getInstance(encrtyptcipher);
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -66,7 +70,6 @@ public class AESEncryption implements EncryptionUtil {
 		assert rawString != null : "rawString is null!! give a value to encrypt";  
 		
 		try {
-			
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 		    return Base64.encodeBase64String(cipher.doFinal(rawString.getBytes("UTF-8")));
 		    
@@ -83,10 +86,9 @@ public class AESEncryption implements EncryptionUtil {
 
 		try {
 			cipher.init(Cipher.DECRYPT_MODE, key);
-			
 			byte[] plainText = cipher.doFinal(Base64.decodeBase64(encryptedString));
-		    
 		    return new String(plainText,"UTF-8");
+		    
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
 			logger.error(e.getMessage(), e);
 			throw e;
