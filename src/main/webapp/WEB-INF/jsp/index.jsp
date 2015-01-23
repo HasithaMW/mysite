@@ -21,6 +21,8 @@
    
    <script type="text/javascript" src="resources/js/angularjs/angular.min.js"></script>
    <script type="text/javascript" src="resources/js/angularjs/angular-route.min.js"></script>
+   <script type="text/javascript" src="resources/js/angularjs/angular-resource.min.js"></script>
+   <script type="text/javascript" src="resources/js/angularjs/angular-sanitize.min.js"></script>
    
 <!-- 	<script type="text/javascript" src="resources/js/angularstrap/angular-strap.min.js"></script> -->
 <!-- 	<script type="text/javascript" src="resources/js/angularstrap/angular-strap.tpl.min.js"></script> -->

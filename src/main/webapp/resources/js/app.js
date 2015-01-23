@@ -11,10 +11,10 @@
 //	}
 //  	
   	
-	 var app =   angular.module("app", ['ngRoute']);
+	 var app =   angular.module('app', ['ngSanitize']);
 	 app.controller("menuController", function($scope,$http) {
 		 $scope.init = function () {
-			 $http.get('http://localhost:8080/web/topmenu').success(function(data) {
+			 $http.get('topmenu').success(function(data) {
 				 $scope.topMenu = data;
 	        });
 		 };
