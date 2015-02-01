@@ -2,15 +2,6 @@
  * 
  */
 
-
-//function hello($scope, $http) {
-//	    $http.get('http://localhost:8080/web/home').
-//	        success(function(data) {
-//	        	$scope.user = data;
-//	        });
-//	}
-//  	
-  	
 	 var app =   angular.module('app', ['ngSanitize']);
 	 app.controller("menuController", function($scope,$http) {
 		 $scope.init = function () {
