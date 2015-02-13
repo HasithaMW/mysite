@@ -15,6 +15,20 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+/**
+ * <p>A implementation of {@link HashUtil}.This uses the <b>Salted Hashing</b> technique. 
+ * To work this <b>security.properties</b> needs be created in the <li>resource</li> package with the following keys and their values
+ * <ul>
+ *  <li>hash.algorithm</li>
+ *  <li>hash.saltByteSize</li>
+ *  <li>hash.hashByteSize</li>
+ * </ul>
+ * </p>
+ * @author kasun
+ * @version 1.0.1
+ * @see {@link https://crackstation.net/hashing-security.htm} 
+ * 
+ */
 @Service
 @Singleton
 @PropertySource(value = { "classpath:security.properties" })

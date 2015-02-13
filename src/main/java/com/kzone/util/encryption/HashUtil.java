@@ -3,13 +3,20 @@ package com.kzone.util.encryption;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * Main interface of the <b>Hashing</b>. <b>Implementation defines</b> how the hashing and validation should happens
+ * It is better to use salted hashing.
+ * @author kasun
+ * @version 1.0.1
+ */
 public interface HashUtil {
 
 	/**
-	 * Returns a salted PBKDF2 hash of the password.
-	 *
-	 * @param  password the password to hash
-	 * @return a salted PBKDF2 hash of the password
+	 * 
+	 * @param rawString to hash.
+	 * @return hashed string. May be salted
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
 	 */
 	public String createHash(String rawString)throws NoSuchAlgorithmException,InvalidKeySpecException ;
 	

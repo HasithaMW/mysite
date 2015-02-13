@@ -6,6 +6,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+/**
+ * This interface use to intercept Objects.
+ * @author kasun
+ * @version 1.0.1
+ */
 public interface ObjectInterceptor {
 
 	public Class<?> getClass(Object object);

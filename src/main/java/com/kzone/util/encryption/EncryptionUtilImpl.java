@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
 import java.security.Security;
 
 import javax.annotation.PostConstruct;
@@ -15,12 +16,30 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Singleton;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+/**
+ * A implementation of {@link EncryptionUtil}.
+ * To work this <b>security.properties</b> needs to be created with the following keys and their values  in the <li>resources</li> package
+ * <ul>
+ * <li>encrypt.key</li>
+ * <li>encrypt.algorithm</li>
+ * <li>encrypt.cipher</li>
+ * </ul>
+ * This uses {@link SecretKeySpec} to generate <b>key</b>, {@link Cipher} to generate cipher
+ * 
+ * {@link BouncyCastleProvider} is the {@link Provider} provider for this implementation
+ * 
+ * @author kasun
+ * @version 1.0.1
+ *
+ */
 
 @Service
 @Singleton
