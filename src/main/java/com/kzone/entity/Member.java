@@ -31,7 +31,7 @@ public class Member extends BaseEntity {
 	private Image     profileImage;
 	private Timestamp lastLogindate;
 	
-	private Set<Post> posts = new HashSet<>();
+	private Set<Post> posts = new HashSet<>(0);
 	
 	@Embedded
 	public Name getName() {

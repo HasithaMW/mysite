@@ -15,7 +15,7 @@ public class Comment extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String comment;
+	private String 		 comment;
 	
 	private Post    	 post;
 	private Member		 commentedBy;
@@ -44,6 +44,7 @@ public class Comment extends BaseEntity {
 	public Post getPost() {
 		return post;
 	}
+	
 	public void setPost(Post post) {
 		this.post = post;
 	}
@@ -62,9 +63,13 @@ public class Comment extends BaseEntity {
 	public Set<Comment> getComments() {
 		return comments;
 	}
+	
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return comment;
+	}
 }

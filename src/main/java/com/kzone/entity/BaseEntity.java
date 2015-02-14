@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -43,7 +43,7 @@ public class BaseEntity implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	@Column
+	@Column(insertable=false)
 	public Timestamp getModifiedDate() {
 		return modifiedDate;
 	}
@@ -86,4 +86,7 @@ public class BaseEntity implements Serializable {
 		return true;
 	}
 
+	@Override
+	public abstract String toString();
+	
 }

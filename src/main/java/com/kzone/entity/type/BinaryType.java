@@ -1,5 +1,7 @@
 package com.kzone.entity.type;
 
+import java.io.BufferedInputStream;
+
 
 public interface BinaryType {
 
@@ -7,7 +9,7 @@ public interface BinaryType {
 	 void setPath(String path);
 	
 
-	Byte getFile();
+	BufferedInputStream getFile();
 	String getFileFormat();
 	
 }
