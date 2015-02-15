@@ -28,6 +28,7 @@ import com.kzone.util.encryption.annotation.Hash;
 public class HibernateInterceptor implements Interceptor {
 
 	@Autowired
+	@Qualifier("objInterceptImpl")
 	private ObjectInterceptor objectInterceptor;
 	
 	@Autowired

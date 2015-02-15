@@ -10,6 +10,8 @@ import com.kzone.dao.UserDAOImpl;
 import com.kzone.service.UserService;
 import com.kzone.service.UserServiceImpl;
 import com.kzone.util.HibernateInterceptor;
+import com.kzone.util.ObjectInterceptor;
+import com.kzone.util.ObjectInterceptorImpl;
 import com.kzone.util.encryption.EncryptionUtilImpl;
 import com.kzone.util.encryption.EncryptionUtil;
 import com.kzone.util.encryption.HashUtil;
@@ -43,5 +45,10 @@ public class DIConfiguration {
 	@Bean(name="passwordHash")
 	public HashUtil getHashUtil() {
 		return new PasswordHash();
+	}
+	
+	@Bean(name="objInterceptImpl")
+	public ObjectInterceptor getObjectInterceptor() {
+		return new ObjectInterceptorImpl();
 	}
 }

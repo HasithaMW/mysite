@@ -14,6 +14,12 @@ import javax.inject.Singleton;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * 
+ * @author kasun
+ * @version 1.0.1
+ * 
+ */
 @Service
 @Singleton
 public class ObjectInterceptorImpl implements ObjectInterceptor {
