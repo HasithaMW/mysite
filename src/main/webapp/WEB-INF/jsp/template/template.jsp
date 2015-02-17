@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+    
 <!DOCTYPE html>
 <html >
    <head>
@@ -19,11 +21,6 @@
    
    <link rel="stylesheet" href="resources/fonts/font-awesome/css/font-awesome.min.css">
    
-   
-	<script type="text/javascript">
-		//angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
-	</script>
-
    </head>
 
    <body >
@@ -44,7 +41,7 @@
 	          
 	    </nav>
 	 	<div id="page-wrapper"  >
-	 		
+	 		<tiles:insertAttribute name="content" />
 	  	</div>
         <!-- /#page-wrapper -->
 	</div>

@@ -23,7 +23,7 @@ public class RootController {
 		User user = new User();
 		user.setUserName("kasun");
 		model.addAttribute("user", user);
-		return "index";
+		return "index.tiles";
 	}
 
 }

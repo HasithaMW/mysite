@@ -1,8 +1,8 @@
 package com.kzone.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kzone.entity.User;
 import com.kzone.service.UserService;
@@ -30,27 +30,23 @@ public class HomeController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public User getUser() {
+	@RequestMapping(method = RequestMethod.GET, produces = "text/html")
+	public String getUser(@RequestParam(value="id",defaultValue="1") Long id) {
+		System.out.println("id "+ id);
 		User user = new User();
 		user.setUserName("kasun");
-		System.out.println("HomeController.getUser()");
-		return user;
+		
+		return "home/index";
 	}
 
 	@RequestMapping(value = "/save",method = RequestMethod.POST,consumes="application/json",produces = "application/json")
 	@ResponseBody
 	public String getSave(@RequestBody User user) {
-		
 		userService.addUser(user);
-
-		System.out.println("HomeController.getSave()");
 		return "";
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String test(ModelMap model) {
 		model.addAttribute("message", "Hello World Spring MVC Framework!");
 		return "home/index";
