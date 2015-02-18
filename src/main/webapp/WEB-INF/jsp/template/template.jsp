@@ -38,12 +38,15 @@
 	              
 	         </div>
 	          <!-- /.navbar-header -->
-	          
+	          <tiles:insertAttribute name="header" />
+	          <tiles:insertAttribute name="leftMenue" />
 	    </nav>
 	 	<div id="page-wrapper"  >
 	 		<tiles:insertAttribute name="content" />
 	  	</div>
         <!-- /#page-wrapper -->
+        
+        <tiles:insertAttribute name="footer" /> 
 	</div>
 	
 <script type="text/javascript" src="resources/js/jquery/jquery.js"></script>
@@ -55,6 +58,8 @@
 <!-- <script type="text/javascript" src="resources/js/bootstrap/flot-data.js"></script>	 -->
 <script type="text/javascript" src="resources/js/bootstrap/theme.js"></script>	 
 <script type="text/javascript" src="resources/js/app.js"></script>	 
- 
+
+<tiles:insertAttribute name="pageScript" /> 
+
    </body>
 </html>

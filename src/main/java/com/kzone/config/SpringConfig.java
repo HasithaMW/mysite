@@ -64,7 +64,7 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
          TilesConfigurer tilesConfigurer = new TilesConfigurer();
-         tilesConfigurer.setDefinitions(new String []{"/WEB-INF/tile-defs/templates.xml","/WEB-INF/tile-defs/definitions.xml"});
+         tilesConfigurer.setDefinitions(new String []{"WEB-INF/tile-defs/templates.xml","WEB-INF/tile-defs/definitions.xml"});
          return tilesConfigurer;
     }
 	

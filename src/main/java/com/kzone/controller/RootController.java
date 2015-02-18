@@ -12,17 +12,9 @@ import com.kzone.entity.User;
 @Component
 public class RootController {
 
-	@RequestMapping(value = "/topmenu", method = RequestMethod.GET)
-	public String printHello(ModelMap model) {
-		model.addAttribute("message", "Hello Spring MVC Framework!");
-		return "top";
-	}
 
 	@RequestMapping(value = "/")
 	public String root(Model model) {
-		User user = new User();
-		user.setUserName("kasun");
-		model.addAttribute("user", user);
 		return "index.tiles";
 	}
 
