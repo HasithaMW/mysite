@@ -15,7 +15,7 @@ public class RootController {
 
 	@RequestMapping(value = "/")
 	public String root(Model model) {
-		return "index.tiles";
+		return "index.tile";
 	}
 
 }

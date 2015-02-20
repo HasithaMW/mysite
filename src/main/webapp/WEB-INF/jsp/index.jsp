@@ -1,63 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html >
-   <head>
-   	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-   
-   <title>Hello Spring MVC</title>
-   <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" >
-   <link rel="stylesheet" type="text/css" href="resources/css/theme.css" >
-   <link rel="stylesheet" type="text/css" href="resources/css/metisMenu.min.css" >
-   <link rel="stylesheet" type="text/css" href="resources/css/morris.css" >
-   <link rel="stylesheet" type="text/css" href="resources/css/main.css" >
-   <link rel="stylesheet" type="text/css" href="resources/css/timeline.css" >
-   
-   <link rel="stylesheet" href="resources/fonts/font-awesome/css/font-awesome.min.css">
-   
-   
-	<script type="text/javascript">
-		//angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
-	</script>
+<ul class="nav nav-tabs">
+    <li class="active">
+    	<a href="#rated" data-toggle="tab">Top Rated</a>
+    </li>
+    <li>
+    	<a href="#views" data-toggle="tab">Most Views</a>
+    </li>
+    <li>
+    	<a href="#topics" data-toggle="tab">Topics</a>
+    </li>
+    <li>
+    	<a href="#settings" data-toggle="tab">Settings</a>
+    </li>
+</ul>
 
-   </head>
-
-   <body >
-   <div id="wrapper" >
-	   <!-- Navigation -->
-	   <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" >
-			<div class="navbar-header">
-	             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	                 <span class="sr-only">Toggle navigation</span>
-	                 <span class="icon-bar"></span>
-	                 <span class="icon-bar"></span>
-	                 <span class="icon-bar"></span>
-	             </button>
-	             <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
-	              
-	         </div>
-	          <!-- /.navbar-header -->
-	          
-	    </nav>
-	 	<div id="page-wrapper"  >
-	 		
-	  	</div>
-        <!-- /#page-wrapper -->
-	</div>
-	
-<script type="text/javascript" src="resources/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="resources/js/bootstrap/bootstrap.min.js"></script>
-<script type="text/javascript" src="resources/js/bootstrap/metisMenu.min.js"></script>	
-<script type="text/javascript" src="resources/js/bootstrap/raphael-min.js"></script>	
-<script type="text/javascript" src="resources/js/bootstrap/morris.min.js"></script>		
-<!-- <script type="text/javascript" src="resources/js/bootstrap/morris-data.js"></script>	 -->
-<!-- <script type="text/javascript" src="resources/js/bootstrap/flot-data.js"></script>	 -->
-<script type="text/javascript" src="resources/js/bootstrap/theme.js"></script>	 
-<script type="text/javascript" src="resources/js/app.js"></script>	 
- 
-   </body>
-</html>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="rated">
+		<div class="well well-sm">
+			<div class="row">
+				<div class="col-lg-2">
+					<h4>Small Well</h4>
+				</div>
+				<div class="col-lg-10">
+         			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+				</div>
+			</div>
+       	</div> 
+       	<div class="well well-sm">
+			<div class="row">
+				<div class="col-lg-2">
+					<h4>Small Well</h4>
+				</div>
+				<div class="col-lg-10">
+         			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+				</div>
+			</div>
+       	</div>    
+    </div>
+    <div class="tab-pane fade" id="views">
+        <h4>Profile Tab</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="tab-pane fade" id="topics">
+        <h4>Messages Tab</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="tab-pane fade" id="settings">
+        <h4>Settings Tab</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</div>

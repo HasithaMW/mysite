@@ -1,18 +1,3 @@
-<%
-	boolean isLogedin = true;
-	if(!isLogedin){
-%>		
-	  	<div class="nav navbar-top-login navbar-right">
-			<form class="navbar-form">
-			   <input class="span2" type="text" placeholder="Email">
-			   <input class="span2" type="password" placeholder="Password">
-			   <button type="submit" class="btn">Sign in</button>
-			 </form>
-		</div>
-        <% 		
-	}
-	else{
-%>
 		<ul class="nav navbar-top-links navbar-right">
 		       <li class="dropdown">
 		           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -222,6 +207,3 @@
      
 		</ul>	
  
-<%		
-	}
-%>

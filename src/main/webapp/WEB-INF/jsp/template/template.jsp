@@ -24,7 +24,7 @@
    </head>
 
    <body >
-   <div id="wrapper" >
+   <div class="container" >
 	   <!-- Navigation -->
 	   <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" >
 			<div class="navbar-header">
@@ -38,13 +38,18 @@
 	              
 	         </div>
 	          <!-- /.navbar-header -->
+	          
 	          <tiles:insertAttribute name="header" />
-	          <tiles:insertAttribute name="leftMenue" />
+	          
 	    </nav>
-	 	<div id="page-wrapper"  >
-	 		<tiles:insertAttribute name="content" />
+	 	<div class="row"  >
+	 		 <div class="col-sm-8">
+	 			<tiles:insertAttribute name="content" />
+	 		</div>
+	 		<div class="col-sm-4">
+	 			<tiles:insertAttribute name="leftMenue" />
+	 		</div>
 	  	</div>
-        <!-- /#page-wrapper -->
         
         <tiles:insertAttribute name="footer" /> 
 	</div>
