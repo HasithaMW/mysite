@@ -36,20 +36,15 @@ public class HomeController {
 		User user = new User();
 		user.setUserName("kasun");
 		
-		return "home/index";
+		return "home.index.tile";
 	}
 
-	@RequestMapping(value = "/save",method = RequestMethod.POST,consumes="application/json",produces = "application/json")
-	@ResponseBody
-	public String getSave(@RequestBody User user) {
-		userService.addUser(user);
-		return "";
-	}
+	
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String test(ModelMap model) {
 		model.addAttribute("message", "Hello World Spring MVC Framework!");
-		return "home/index";
+		return "home.index.tile";
 	}
 
 	// @RequestMapping(value="/{owner}", method = RequestMethod.GET)
@@ -79,9 +74,5 @@ public class HomeController {
 		System.out.println(petId);
 	}
 
-	@RequestMapping(value = "/okpage", method = RequestMethod.GET,produces = "text/html")
-	public String getOkPage(){
-		System.out.println("HomeController.getOkPage()");
-		return "home/ok";
-	}
+	
 }
