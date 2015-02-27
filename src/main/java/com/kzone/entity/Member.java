@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.kzone.entity.type.Address;
@@ -18,6 +20,9 @@ import com.kzone.util.encryption.annotation.Encrypt;
 import com.kzone.util.encryption.annotation.Hash;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Member.byEmail",query="SELECT m FROM Member as m WHERE m.email =:email")
+})
 public class Member extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ public class User extends BaseEntity  {
 	private String password;
 	
 	
-	@Encrypt
+//	@Encrypt
 	@Column
 	public String getUserName() {
 		return userName;

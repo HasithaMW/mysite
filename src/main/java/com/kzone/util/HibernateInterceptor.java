@@ -31,6 +31,7 @@ public class HibernateInterceptor implements Interceptor {
 	private ObjectInterceptor objectInterceptor;
 	
 	@Autowired
+	@Qualifier("spring")
 	private HashUtil passHashUtil;
 	
 	@Autowired

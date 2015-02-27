@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.kzone.entity.User;
@@ -27,6 +28,7 @@ public class UserDAOImpl implements UserDAO {
 	private SessionFactory sessionFactory;
 	
 	@Autowired
+	@Qualifier("spring")
 	private HashUtil passHashUtil;
 
 	public UserDAOImpl() {	
@@ -89,6 +91,18 @@ public class UserDAOImpl implements UserDAO {
 		query.setParameter("password", user.getPassword());
 		query.setParameter("id", user.getId());
 		query.executeUpdate();
+	}
+
+	@Override
+	public User getUserByUserName(String userName) {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> userList = session.createQuery(
+				"select user from User as user where user.userName =:userName")
+				.setParameter("userName", userName).list();
+		if(!userList.isEmpty()){
+			return userList.get(0);
+		}
+		return null;
 	}
 	
 

@@ -19,4 +19,5 @@ public interface UserService {
 	
 	public void resetPassword(User user)throws GeneralSecurityException;
 	
+	public User getUserByUserName(String userName);
 }

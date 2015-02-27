@@ -54,6 +54,12 @@ public class UserServiceImpl implements UserService {
 	public void resetPassword(User user)throws GeneralSecurityException{
 		this.userDAO.resetPassword(user);		
 	}
+
+	@Override
+	@Transactional
+	public User getUserByUserName(String userName) {
+		return this.userDAO.getUserByUserName(userName);
+	}
 	
 	
 

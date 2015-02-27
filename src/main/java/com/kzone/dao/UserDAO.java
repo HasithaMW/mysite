@@ -12,6 +12,7 @@ public interface UserDAO {
     public List<User> listUsers();
     public User getUserById(Long id);
     public void removeUser(Long id);
+    public User getUserByUserName(String email);
     
     public void resetPassword(User user)throws GeneralSecurityException;
 	
