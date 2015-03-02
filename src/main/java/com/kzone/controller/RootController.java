@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,10 +26,8 @@ public class RootController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/")
-	public ModelAndView root(Model model) {
-		ModelAndView modelV = new ModelAndView();
-		modelV.setViewName("index.tile");
-		
+	public String root(Model model) {
+		model.addAttribute("user", new User());
 //		User user = new User();
 //		user.setUserName("kasuna");
 //		user.setLastName("Sameera");
@@ -36,14 +35,21 @@ public class RootController {
 //		
 //		userService.addUser(user);
 		
-		User userByUserName = userService.getUserByUserName("kasun");
+//		User userByUserName = userService.getUserByUserName("kasuna");
+//		
+//		boolean matches = new BCryptPasswordEncoder().matches("123", userByUserName.getPassword());
+//		System.err.println("matches "+matches);
 		
-		boolean matches = new BCryptPasswordEncoder().matches("123", userByUserName.getPassword());
-		System.err.println("matches "+matches);
-		
-		return modelV;
+		return "index.tile";
 	}
 
+	@RequestMapping(value = "/add")
+	public String add(@ModelAttribute("user") User user) {
+		userService.addUser(user);
+		return "redirect:/";
+	}
+	
+	
 	@RequestMapping(value = "/login")
 	public String login(Model model) {
 		return "login.tile";

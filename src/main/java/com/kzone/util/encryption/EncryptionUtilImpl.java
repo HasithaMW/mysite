@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 public class EncryptionUtilImpl implements EncryptionUtil {
 
 	private static final  Logger logger = LoggerFactory.getLogger(EncryptionUtilImpl.class);
+	
 	static{
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 	}
