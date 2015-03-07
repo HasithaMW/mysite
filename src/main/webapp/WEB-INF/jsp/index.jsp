@@ -53,7 +53,6 @@
     	<c:url var="addAction" value="/add" ></c:url>
     	<form:form action="${addAction}" commandName="user">
 		<table>
-
 		    <tr>
 		        <td>
 		            <form:label path="userName">
